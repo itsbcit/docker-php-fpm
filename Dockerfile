@@ -1,4 +1,4 @@
-FROM bcit.io/alpine:<%= image.vars['alpine_version'] %>-latest
+FROM bcit.io/alpine:3.14-latest
 
 RUN apk add --no-cache \
     php \
