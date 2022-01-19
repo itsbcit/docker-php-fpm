@@ -5,6 +5,26 @@ registries:
 labels:
   maintainer: "jesse@weisner.ca, chriswood.ca@gmail.com"
   php_version: '<%= vars["php_version"] %>'
+tags:
+  - '<%= tag_join(vars["php_version"], "alpine", build_suffix) %>'
+  - '<%= tag_join(vars["php_version"], "alpine", "latest") %>'
+  - '<%= tag_join(vars["php_version"], "alpine") %>'
+  - '<%= tag_join(vars["php_version"], build_suffix) %>'
+  - '<%= tag_join(vars["php_version"], "latest") %>'
+  - '<%= tag_join(vars["php_version"]) %>'
+  - '<%= tag_join(vars["php_minor_version"], "alpine", build_suffix) %>'
+  - '<%= tag_join(vars["php_minor_version"], "alpine", "latest") %>'
+  - '<%= tag_join(vars["php_minor_version"], "alpine") %>'
+  - '<%= tag_join(vars["php_minor_version"], build_suffix) %>'
+  - '<%= tag_join(vars["php_minor_version"], "latest") %>'
+  - '<%= tag_join(vars["php_minor_version"]) %>'
+  - '<%= tag_join(vars["php_major_version"], "alpine", build_suffix) %>'
+  - '<%= tag_join(vars["php_major_version"], "alpine", "latest") %>'
+  - '<%= tag_join(vars["php_major_version"], "alpine") %>'
+  - '<%= tag_join(vars["php_major_version"], build_suffix) %>'
+  - '<%= tag_join(vars["php_major_version"], "latest") %>'
+  - '<%= tag_join(vars["php_major_version"]) %>'
+  - 'latest'
 vars:
   tini_version: '0.19.0'
   de_version: '1.5'
