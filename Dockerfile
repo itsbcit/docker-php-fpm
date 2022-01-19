@@ -84,7 +84,15 @@ ADD docker.conf /etc/php7/php-fpm.d/docker.conf
 ADD zz-docker.conf /etc/php7/php-fpm.d/zz-docker.conf
 ADD 50-copy-php-fpm-config.sh /docker-entrypoint.d/50-copy-php-fpm-config.sh
 
-RUN chmod +x /usr/local/bin/php-fpm-healthcheck
+RUN chmod +x /usr/local/bin/php-fpm-healthcheck \
+ && sh -c 'find /etc/php7 -type f -exec chown root:root {} \;' \
+ && sh -c 'find /etc/php7 -type f -exec chmod 664 {} \;' \
+ && sh -c 'find /etc/php7 -type d -exec chmod root:root {} \;' \
+ && sh -c 'find /etc/php7 -type d -exec chmod 775 {} \;'
+
+# TODO: add PHP timezone config
+# TODO: set reasonable maz upload size
+# TODO: set temp dirs
 
 WORKDIR /application
 HEALTHCHECK CMD /usr/local/bin/php-fpm-healthcheck
