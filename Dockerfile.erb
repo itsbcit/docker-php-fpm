@@ -1,5 +1,8 @@
 FROM bcit.io/alpine:<%= image.vars['alpine_version'] %>-latest
 
+ENV DISABLE_EXTENSIONS="curl enchant ftp gd imagick imap ldap odbc pcntl snmp ssh2 sysvmsg sysvsem sysvshm exif pdo_odbc amqp mailparse vips xdebug"
+ENV ENABLE_EXTENSIONS=""
+
 RUN apk add --no-cache \
     php<%= image.vars['php_major_version'] %> \
     php<%= image.vars['php_major_version'] %>-bcmath \
@@ -49,6 +52,7 @@ RUN apk add --no-cache \
     php<%= image.vars['php_major_version'] %>-pecl-ssh2 \
     php<%= image.vars['php_major_version'] %>-pecl-timezonedb \
     php<%= image.vars['php_major_version'] %>-pecl-vips \
+    php<%= image.vars['php_major_version'] %>-pecl-xdebug \
     php<%= image.vars['php_major_version'] %>-pecl-yaml \
     php<%= image.vars['php_major_version'] %>-pecl-zmq \
     php<%= image.vars['php_major_version'] %>-pgsql \
@@ -83,6 +87,7 @@ ADD www.conf /etc/php<%= image.vars['php_major_version'] %>/php-fpm.d/www.conf
 ADD docker.conf /etc/php<%= image.vars['php_major_version'] %>/php-fpm.d/docker.conf
 ADD zz-docker.conf /etc/php<%= image.vars['php_major_version'] %>/php-fpm.d/zz-docker.conf
 ADD 50-copy-php-fpm-config.sh /docker-entrypoint.d/50-copy-php-fpm-config.sh
+ADD 60-php_extensions.sh /docker-entrypoint.d/60-php_extensions.sh
 
 RUN chmod +x /usr/local/bin/php-fpm-healthcheck \
  && sh -c 'find /etc/php7 -type f -exec chown root:root {} \;' \
