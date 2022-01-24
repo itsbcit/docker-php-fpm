@@ -88,6 +88,7 @@ ADD docker.conf /etc/php7/php-fpm.d/docker.conf
 ADD zz-docker.conf /etc/php7/php-fpm.d/zz-docker.conf
 ADD 50-copy-php-fpm-config.sh /docker-entrypoint.d/50-copy-php-fpm-config.sh
 ADD 60-php_extensions.sh /docker-entrypoint.d/60-php_extensions.sh
+ADD php.ini-development /etc/php7/php.ini-development
 
 RUN chmod +x /usr/local/bin/php-fpm-healthcheck \
  && sh -c 'find /etc/php7 -type f -exec chown root:root {} \;' \
