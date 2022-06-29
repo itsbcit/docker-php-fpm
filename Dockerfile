@@ -96,7 +96,8 @@ RUN chmod +x /usr/local/bin/php-fpm-healthcheck \
  && sh -c 'find /etc/php7 -type f -exec chmod 664 {} \;' \
  && sh -c 'find /etc/php7 -type d -exec chmod root:root {} \;' \
  && sh -c 'find /etc/php7 -type d -exec chmod 775 {} \;' \
- && echo "zend_extension=xdebug.so" > /etc/php7/conf.d/50_xdebug.ini
+ && echo "zend_extension=xdebug.so" > /etc/php7/conf.d/50_xdebug.ini \
+ && sed -i 's^;date.timezone =^date.timezone = America/Vancouver^' /etc/php7/php.ini
 
 WORKDIR /application
 HEALTHCHECK CMD /usr/local/bin/php-fpm-healthcheck
