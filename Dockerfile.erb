@@ -4,6 +4,7 @@ ENV DISABLE_EXTENSIONS="curl enchant ftp gd imagick imap ldap odbc pcntl snmp ss
 ENV ENABLE_EXTENSIONS=""
 
 RUN apk add --no-cache \
+    # --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
     php<%= image.vars['php_major_version'] %> \
     php<%= image.vars['php_major_version'] %>-bcmath \
     php<%= image.vars['php_major_version'] %>-bz2 \
@@ -44,18 +45,18 @@ RUN apk add --no-cache \
     php<%= image.vars['php_major_version'] %>-pecl-imagick \
     php<%= image.vars['php_major_version'] %>-pecl-lzf \
     php<%= image.vars['php_major_version'] %>-pecl-mailparse \
-    php<%= image.vars['php_major_version'] %>-pecl-mcrypt \
+    # php<%= image.vars['php_major_version'] %>-pecl-mcrypt \ doesnt seem to be maintained on alpine anymore https://github.com/php/php-src/issues/7742
     php<%= image.vars['php_major_version'] %>-pecl-memcached \
     php<%= image.vars['php_major_version'] %>-pecl-msgpack \
-    php<%= image.vars['php_major_version'] %>-pecl-oauth \
+    # php<%= image.vars['php_major_version'] %>-pecl-oauth \ edge community
     php<%= image.vars['php_major_version'] %>-pecl-protobuf \
     php<%= image.vars['php_major_version'] %>-pecl-redis \
     php<%= image.vars['php_major_version'] %>-pecl-ssh2 \
-    php<%= image.vars['php_major_version'] %>-pecl-timezonedb \
+    # php<%= image.vars['php_major_version'] %>-pecl-timezonedb \ edge community
     php<%= image.vars['php_major_version'] %>-pecl-vips \
     php<%= image.vars['php_major_version'] %>-pecl-xdebug \
     php<%= image.vars['php_major_version'] %>-pecl-yaml \
-    php<%= image.vars['php_major_version'] %>-pecl-zmq \
+    # php<%= image.vars['php_major_version'] %>-pecl-zmq \ no maintainer, has not been updated since 2016 anyways
     php<%= image.vars['php_major_version'] %>-pgsql \
     php<%= image.vars['php_major_version'] %>-phar \
     php<%= image.vars['php_major_version'] %>-posix \
@@ -76,7 +77,7 @@ RUN apk add --no-cache \
     php<%= image.vars['php_major_version'] %>-tokenizer \
     php<%= image.vars['php_major_version'] %>-xml \
     php<%= image.vars['php_major_version'] %>-xmlreader \
-    php<%= image.vars['php_major_version'] %>-xmlrpc \
+    # php<%= image.vars['php_major_version'] %>-xmlrpc \ edge testing
     php<%= image.vars['php_major_version'] %>-xmlwriter \
     php<%= image.vars['php_major_version'] %>-xsl \
     php<%= image.vars['php_major_version'] %>-zip \
@@ -92,12 +93,12 @@ ADD 60-php_extensions.sh /docker-entrypoint.d/60-php_extensions.sh
 ADD php.ini-development /etc/php<%= image.vars['php_major_version'] %>/php.ini-development
 
 RUN chmod +x /usr/local/bin/php-fpm-healthcheck \
- && sh -c 'find /etc/php7 -type f -exec chown root:root {} \;' \
- && sh -c 'find /etc/php7 -type f -exec chmod 664 {} \;' \
- && sh -c 'find /etc/php7 -type d -exec chmod root:root {} \;' \
- && sh -c 'find /etc/php7 -type d -exec chmod 775 {} \;' \
- && echo "zend_extension=xdebug.so" > /etc/php7/conf.d/50_xdebug.ini \
- && sed -i 's^;date.timezone =^date.timezone = America/Vancouver^' /etc/php7/php.ini
+ && sh -c 'find /etc/php<%= image.vars['php_major_version'] %> -type f -exec chown root:root {} \;' \
+ && sh -c 'find /etc/php<%= image.vars['php_major_version'] %> -type f -exec chmod 664 {} \;' \
+ && sh -c 'find /etc/php<%= image.vars['php_major_version'] %> -type d -exec chmod root:root {} \;' \
+ && sh -c 'find /etc/php<%= image.vars['php_major_version'] %> -type d -exec chmod 775 {} \;' \
+ && echo "zend_extension=xdebug.so" > /etc/php<%= image.vars['php_major_version'] %>/conf.d/50_xdebug.ini \
+ && sed -i 's^;date.timezone =^date.timezone = America/Vancouver^' /etc/php<%= image.vars['php_major_version'] %>/php.ini
 
 WORKDIR /application
 HEALTHCHECK CMD /usr/local/bin/php-fpm-healthcheck

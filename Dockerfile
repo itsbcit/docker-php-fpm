@@ -1,105 +1,106 @@
-FROM bcit.io/alpine:3.15-latest
+FROM bcit.io/alpine:3.17-latest
 
 ENV DISABLE_EXTENSIONS="curl enchant ftp gd imagick imap ldap odbc pcntl snmp ssh2 sysvmsg sysvsem sysvshm exif pdo_odbc amqp mailparse vips xdebug"
 ENV ENABLE_EXTENSIONS=""
 
 RUN apk add --no-cache \
-    php7 \
-    php7-bcmath \
-    php7-bz2 \
-    php7-calendar \
-    php7-ctype \
-    php7-curl \
-    php7-dba \
-    php7-dom \
-    php7-enchant \
-    php7-exif \
-    php7-fileinfo \
-    php7-fpm \
-    php7-ftp \
-    php7-gd \
-    php7-gettext \
-    php7-gmp \
-    php7-iconv \
-    php7-imap \
-    php7-intl \
-    php7-json \
-    php7-ldap \
-    php7-mbstring \
-    php7-mysqli \
-    php7-mysqlnd \
-    php7-opcache \
-    php7-odbc \
-    php7-openssl \
-    php7-pcntl \
-    php7-pdo \
-    php7-pdo_dblib \
-    php7-pdo_mysql \
-    php7-pdo_odbc \
-    php7-pdo_pgsql \
-    php7-pdo_sqlite \
-    php7-pecl-amqp \
-    php7-pecl-event \
-    php7-pecl-igbinary \
-    php7-pecl-imagick \
-    php7-pecl-lzf \
-    php7-pecl-mailparse \
-    php7-pecl-mcrypt \
-    php7-pecl-memcached \
-    php7-pecl-msgpack \
-    php7-pecl-oauth \
-    php7-pecl-protobuf \
-    php7-pecl-redis \
-    php7-pecl-ssh2 \
-    php7-pecl-timezonedb \
-    php7-pecl-vips \
-    php7-pecl-xdebug \
-    php7-pecl-yaml \
-    php7-pecl-zmq \
-    php7-pgsql \
-    php7-phar \
-    php7-posix \
-    php7-pspell \
-    php7-session \
-    php7-shmop \
-    php7-simplexml \
-    php7-snmp \
-    php7-soap \
-    php7-sockets \
-    php7-sockets \
-    php7-sodium \
-    php7-sqlite3 \
-    php7-sysvmsg \
-    php7-sysvsem \
-    php7-sysvshm \
-    php7-tidy \
-    php7-tokenizer \
-    php7-xml \
-    php7-xmlreader \
-    php7-xmlrpc \
-    php7-xmlwriter \
-    php7-xsl \
-    php7-zip \
+    # --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
+    php81 \
+    php81-bcmath \
+    php81-bz2 \
+    php81-calendar \
+    php81-ctype \
+    php81-curl \
+    php81-dba \
+    php81-dom \
+    php81-enchant \
+    php81-exif \
+    php81-fileinfo \
+    php81-fpm \
+    php81-ftp \
+    php81-gd \
+    php81-gettext \
+    php81-gmp \
+    php81-iconv \
+    php81-imap \
+    php81-intl \
+    php81-json \
+    php81-ldap \
+    php81-mbstring \
+    php81-mysqli \
+    php81-mysqlnd \
+    php81-opcache \
+    php81-odbc \
+    php81-openssl \
+    php81-pcntl \
+    php81-pdo \
+    php81-pdo_dblib \
+    php81-pdo_mysql \
+    php81-pdo_odbc \
+    php81-pdo_pgsql \
+    php81-pdo_sqlite \
+    php81-pecl-amqp \
+    php81-pecl-event \
+    php81-pecl-igbinary \
+    php81-pecl-imagick \
+    php81-pecl-lzf \
+    php81-pecl-mailparse \
+    # php81-pecl-mcrypt \ doesnt seem to be maintained on alpine anymore https://github.com/php/php-src/issues/7742
+    php81-pecl-memcached \
+    php81-pecl-msgpack \
+    # php81-pecl-oauth \ edge community
+    php81-pecl-protobuf \
+    php81-pecl-redis \
+    php81-pecl-ssh2 \
+    # php81-pecl-timezonedb \ edge community
+    php81-pecl-vips \
+    php81-pecl-xdebug \
+    php81-pecl-yaml \
+    # php81-pecl-zmq \ no maintainer, has not been updated since 2016 anyways
+    php81-pgsql \
+    php81-phar \
+    php81-posix \
+    php81-pspell \
+    php81-session \
+    php81-shmop \
+    php81-simplexml \
+    php81-snmp \
+    php81-soap \
+    php81-sockets \
+    php81-sockets \
+    php81-sodium \
+    php81-sqlite3 \
+    php81-sysvmsg \
+    php81-sysvsem \
+    php81-sysvshm \
+    php81-tidy \
+    php81-tokenizer \
+    php81-xml \
+    php81-xmlreader \
+    # php81-xmlrpc \ edge testing
+    php81-xmlwriter \
+    php81-xsl \
+    php81-zip \
     fcgi \
  && rm -rf /var/cache/apk
 
 ADD https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-fpm-healthcheck /usr/local/bin/php-fpm-healthcheck
-ADD www.conf /etc/php7/php-fpm.d/www.conf
-ADD docker.conf /etc/php7/php-fpm.d/docker.conf
-ADD zz-docker.conf /etc/php7/php-fpm.d/zz-docker.conf
+ADD www.conf /etc/php81/php-fpm.d/www.conf
+ADD docker.conf /etc/php81/php-fpm.d/docker.conf
+ADD zz-docker.conf /etc/php81/php-fpm.d/zz-docker.conf
 ADD 50-copy-php-fpm-config.sh /docker-entrypoint.d/50-copy-php-fpm-config.sh
 ADD 60-php_extensions.sh /docker-entrypoint.d/60-php_extensions.sh
-ADD php.ini-development /etc/php7/php.ini-development
+ADD php.ini-development /etc/php81/php.ini-development
 
 RUN chmod +x /usr/local/bin/php-fpm-healthcheck \
- && sh -c 'find /etc/php7 -type f -exec chown root:root {} \;' \
- && sh -c 'find /etc/php7 -type f -exec chmod 664 {} \;' \
- && sh -c 'find /etc/php7 -type d -exec chmod root:root {} \;' \
- && sh -c 'find /etc/php7 -type d -exec chmod 775 {} \;' \
- && echo "zend_extension=xdebug.so" > /etc/php7/conf.d/50_xdebug.ini \
- && sed -i 's^;date.timezone =^date.timezone = America/Vancouver^' /etc/php7/php.ini
+ && sh -c 'find /etc/php81 -type f -exec chown root:root {} \;' \
+ && sh -c 'find /etc/php81 -type f -exec chmod 664 {} \;' \
+ && sh -c 'find /etc/php81 -type d -exec chmod root:root {} \;' \
+ && sh -c 'find /etc/php81 -type d -exec chmod 775 {} \;' \
+ && echo "zend_extension=xdebug.so" > /etc/php81/conf.d/50_xdebug.ini \
+ && sed -i 's^;date.timezone =^date.timezone = America/Vancouver^' /etc/php81/php.ini
 
 WORKDIR /application
 HEALTHCHECK CMD /usr/local/bin/php-fpm-healthcheck
 
-CMD ["/usr/sbin/php-fpm7", "-F", "-O", "-y", "/etc/php7/php-fpm.conf"]
+CMD ["/usr/sbin/php-fpm81", "-F", "-O", "-y", "/etc/php81/php-fpm.conf"]
