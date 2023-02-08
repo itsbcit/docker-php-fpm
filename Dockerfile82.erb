@@ -1,0 +1,110 @@
+FROM bcit.io/alpine:<%= image.vars['alpine_version'] %>-latest
+
+ENV DISABLE_EXTENSIONS="curl enchant ftp gd imagick imap ldap odbc pcntl snmp ssh2 sysvmsg sysvsem sysvshm exif pdo_odbc amqp mailparse vips xdebug"
+ENV ENABLE_EXTENSIONS=""
+
+RUN apk add --no-cache \
+    --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
+    php<%= image.vars['php_major_version'] %> \
+    php<%= image.vars['php_major_version'] %>-bcmath \
+    php<%= image.vars['php_major_version'] %>-bz2 \
+    php<%= image.vars['php_major_version'] %>-calendar \
+    php<%= image.vars['php_major_version'] %>-ctype \
+    php<%= image.vars['php_major_version'] %>-curl \
+    php<%= image.vars['php_major_version'] %>-dba \
+    php<%= image.vars['php_major_version'] %>-dom \
+    php<%= image.vars['php_major_version'] %>-enchant \
+    php<%= image.vars['php_major_version'] %>-exif \
+    php<%= image.vars['php_major_version'] %>-fileinfo \
+    php<%= image.vars['php_major_version'] %>-fpm \
+    php<%= image.vars['php_major_version'] %>-ftp \
+    php<%= image.vars['php_major_version'] %>-gd \
+    php<%= image.vars['php_major_version'] %>-gettext \
+    php<%= image.vars['php_major_version'] %>-gmp \
+    php<%= image.vars['php_major_version'] %>-iconv \
+    php<%= image.vars['php_major_version'] %>-imap \
+    php<%= image.vars['php_major_version'] %>-intl \
+    php<%= image.vars['php_major_version'] %>-json \
+    php<%= image.vars['php_major_version'] %>-ldap \
+    php<%= image.vars['php_major_version'] %>-mbstring \
+    php<%= image.vars['php_major_version'] %>-mysqli \
+    php<%= image.vars['php_major_version'] %>-mysqlnd \
+    php<%= image.vars['php_major_version'] %>-opcache \
+    php<%= image.vars['php_major_version'] %>-odbc \
+    php<%= image.vars['php_major_version'] %>-openssl \
+    php<%= image.vars['php_major_version'] %>-pcntl \
+    php<%= image.vars['php_major_version'] %>-pdo \
+    php<%= image.vars['php_major_version'] %>-pdo_dblib \
+    php<%= image.vars['php_major_version'] %>-pdo_mysql \
+    php<%= image.vars['php_major_version'] %>-pdo_odbc \
+    php<%= image.vars['php_major_version'] %>-pdo_pgsql \
+    php<%= image.vars['php_major_version'] %>-pdo_sqlite \
+    # php<%= image.vars['php_major_version'] %>-pecl-event \
+    php<%= image.vars['php_major_version'] %>-pecl-igbinary \
+    # php<%= image.vars['php_major_version'] %>-pecl-mailparse \
+    # php<%= image.vars['php_major_version'] %>-pecl-mcrypt \ doesnt seem to be maintained on alpine anymore https://github.com/php/php-src/issues/7742
+    php<%= image.vars['php_major_version'] %>-pecl-memcached \
+    php<%= image.vars['php_major_version'] %>-pecl-msgpack \
+    php<%= image.vars['php_major_version'] %>-pecl-redis \
+    # php<%= image.vars['php_major_version'] %>-pecl-ssh2 \
+    php<%= image.vars['php_major_version'] %>-pecl-xdebug \
+    php<%= image.vars['php_major_version'] %>-pecl-yaml \
+    # php<%= image.vars['php_major_version'] %>-pecl-zmq \ no maintainer, has not been updated since 2016 anyways
+    php<%= image.vars['php_major_version'] %>-pgsql \
+    php<%= image.vars['php_major_version'] %>-phar \
+    php<%= image.vars['php_major_version'] %>-posix \
+    php<%= image.vars['php_major_version'] %>-pspell \
+    php<%= image.vars['php_major_version'] %>-session \
+    php<%= image.vars['php_major_version'] %>-shmop \
+    php<%= image.vars['php_major_version'] %>-simplexml \
+    php<%= image.vars['php_major_version'] %>-snmp \
+    php<%= image.vars['php_major_version'] %>-soap \
+    php<%= image.vars['php_major_version'] %>-sockets \
+    php<%= image.vars['php_major_version'] %>-sockets \
+    php<%= image.vars['php_major_version'] %>-sodium \
+    php<%= image.vars['php_major_version'] %>-sqlite3 \
+    php<%= image.vars['php_major_version'] %>-sysvmsg \
+    php<%= image.vars['php_major_version'] %>-sysvsem \
+    php<%= image.vars['php_major_version'] %>-sysvshm \
+    php<%= image.vars['php_major_version'] %>-tidy \
+    php<%= image.vars['php_major_version'] %>-tokenizer \
+    php<%= image.vars['php_major_version'] %>-xml \
+    php<%= image.vars['php_major_version'] %>-xmlreader \
+    php<%= image.vars['php_major_version'] %>-xmlwriter \
+    php<%= image.vars['php_major_version'] %>-xsl \
+    php<%= image.vars['php_major_version'] %>-zip \
+    fcgi \
+ && rm -rf /var/cache/apk
+
+RUN apk add --no-cache \
+    --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing \
+    php<%= image.vars['php_major_version'] %>-pecl-amqp \
+    php<%= image.vars['php_major_version'] %>-pecl-imagick \
+    php<%= image.vars['php_major_version'] %>-pecl-lzf \
+    php<%= image.vars['php_major_version'] %>-pecl-oauth \
+    php<%= image.vars['php_major_version'] %>-pecl-protobuf \
+    php<%= image.vars['php_major_version'] %>-pecl-timezonedb \
+    php<%= image.vars['php_major_version'] %>-pecl-vips \
+    # php<%= image.vars['php_major_version'] %>-xmlrpc \
+ && rm -rf /var/cache/apk
+
+ADD https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-fpm-healthcheck /usr/local/bin/php-fpm-healthcheck
+ADD www.conf /etc/php<%= image.vars['php_major_version'] %>/php-fpm.d/www.conf
+ADD docker.conf /etc/php<%= image.vars['php_major_version'] %>/php-fpm.d/docker.conf
+ADD zz-docker.conf /etc/php<%= image.vars['php_major_version'] %>/php-fpm.d/zz-docker.conf
+ADD 50-copy-php-fpm-config.sh /docker-entrypoint.d/50-copy-php-fpm-config.sh
+ADD 60-php_extensions.sh /docker-entrypoint.d/60-php_extensions.sh
+ADD php.ini-development /etc/php<%= image.vars['php_major_version'] %>/php.ini-development
+
+RUN chmod +x /usr/local/bin/php-fpm-healthcheck \
+ && sh -c 'find /etc/php<%= image.vars['php_major_version'] %> -type f -exec chown root:root {} \;' \
+ && sh -c 'find /etc/php<%= image.vars['php_major_version'] %> -type f -exec chmod 664 {} \;' \
+ && sh -c 'find /etc/php<%= image.vars['php_major_version'] %> -type d -exec chmod root:root {} \;' \
+ && sh -c 'find /etc/php<%= image.vars['php_major_version'] %> -type d -exec chmod 775 {} \;' \
+ && echo "zend_extension=xdebug.so" > /etc/php<%= image.vars['php_major_version'] %>/conf.d/50_xdebug.ini \
+ && sed -i 's^;date.timezone =^date.timezone = America/Vancouver^' /etc/php<%= image.vars['php_major_version'] %>/php.ini
+
+WORKDIR /application
+HEALTHCHECK CMD /usr/local/bin/php-fpm-healthcheck
+
+CMD ["/usr/sbin/php-fpm<%= image.vars['php_major_version'] %>", "-F", "-O", "-y", "/etc/php<%= image.vars['php_major_version'] %>/php-fpm.conf"]
