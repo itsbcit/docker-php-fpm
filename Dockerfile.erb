@@ -4,7 +4,9 @@ ENV DISABLE_EXTENSIONS="curl enchant ftp gd imagick imap ldap odbc pcntl snmp ss
 ENV ENABLE_EXTENSIONS=""
 
 RUN apk add --no-cache \
-    # --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
+     <%- if image.vars['php_major_version'] == '82' -%>
+    --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
+    <%- end -%>
     php<%= image.vars['php_major_version'] %> \
     php<%= image.vars['php_major_version'] %>-bcmath \
     php<%= image.vars['php_major_version'] %>-bz2 \
@@ -39,24 +41,24 @@ RUN apk add --no-cache \
     php<%= image.vars['php_major_version'] %>-pdo_odbc \
     php<%= image.vars['php_major_version'] %>-pdo_pgsql \
     php<%= image.vars['php_major_version'] %>-pdo_sqlite \
-    php<%= image.vars['php_major_version'] %>-pecl-amqp \
-    php<%= image.vars['php_major_version'] %>-pecl-event \
+    <% if image.vars['php_major_version'] == '82' -%># <%- end -%>php<%= image.vars['php_major_version'] %>-pecl-amqp \
+    <% if image.vars['php_major_version'] == '82' -%># <%- end -%>php<%= image.vars['php_major_version'] %>-pecl-event \
     php<%= image.vars['php_major_version'] %>-pecl-igbinary \
-    php<%= image.vars['php_major_version'] %>-pecl-imagick \
-    php<%= image.vars['php_major_version'] %>-pecl-lzf \
-    php<%= image.vars['php_major_version'] %>-pecl-mailparse \
-    # php<%= image.vars['php_major_version'] %>-pecl-mcrypt \ doesnt seem to be maintained on alpine anymore https://github.com/php/php-src/issues/7742
+    <% if image.vars['php_major_version'] == '82' -%># <%- end -%>php<%= image.vars['php_major_version'] %>-pecl-imagick \
+    <% if image.vars['php_major_version'] == '82' -%># <%- end -%>php<%= image.vars['php_major_version'] %>-pecl-lzf \
+    <% if image.vars['php_major_version'] == '82' -%># <%- end -%>php<%= image.vars['php_major_version'] %>-pecl-mailparse \
+    <% if image.vars['php_major_version'] == '81' -%># <%- end -%><% if image.vars['php_major_version'] == '82' -%># <%- end -%>php<%= image.vars['php_major_version'] %>-pecl-mcrypt \
     php<%= image.vars['php_major_version'] %>-pecl-memcached \
     php<%= image.vars['php_major_version'] %>-pecl-msgpack \
-    # php<%= image.vars['php_major_version'] %>-pecl-oauth \ edge community
-    php<%= image.vars['php_major_version'] %>-pecl-protobuf \
+    <% if image.vars['php_major_version'] == '81' -%># <%- end -%><% if image.vars['php_major_version'] == '82' -%># <%- end -%>php<%= image.vars['php_major_version'] %>-pecl-oauth \
+    <% if image.vars['php_major_version'] == '82' -%># <%- end -%>php<%= image.vars['php_major_version'] %>-pecl-protobuf \
     php<%= image.vars['php_major_version'] %>-pecl-redis \
-    php<%= image.vars['php_major_version'] %>-pecl-ssh2 \
-    # php<%= image.vars['php_major_version'] %>-pecl-timezonedb \ edge community
-    php<%= image.vars['php_major_version'] %>-pecl-vips \
+    <% if image.vars['php_major_version'] == '82' -%># <%- end -%>php<%= image.vars['php_major_version'] %>-pecl-ssh2 \
+    <% if image.vars['php_major_version'] == '81' -%># <%- end -%><% if image.vars['php_major_version'] == '82' -%># <%- end -%>php<%= image.vars['php_major_version'] %>-pecl-timezonedb \
+    <% if image.vars['php_major_version'] == '82' -%># <%- end -%>php<%= image.vars['php_major_version'] %>-pecl-vips \
     php<%= image.vars['php_major_version'] %>-pecl-xdebug \
     php<%= image.vars['php_major_version'] %>-pecl-yaml \
-    # php<%= image.vars['php_major_version'] %>-pecl-zmq \ no maintainer, has not been updated since 2016 anyways
+    <% if image.vars['php_major_version'] == '81' -%># <%- end -%><% if image.vars['php_major_version'] == '82' -%># <%- end -%>php<%= image.vars['php_major_version'] %>-pecl-zmq \
     php<%= image.vars['php_major_version'] %>-pgsql \
     php<%= image.vars['php_major_version'] %>-phar \
     php<%= image.vars['php_major_version'] %>-posix \
@@ -77,13 +79,35 @@ RUN apk add --no-cache \
     php<%= image.vars['php_major_version'] %>-tokenizer \
     php<%= image.vars['php_major_version'] %>-xml \
     php<%= image.vars['php_major_version'] %>-xmlreader \
-    # php<%= image.vars['php_major_version'] %>-xmlrpc \ edge testing
+    <% if image.vars['php_major_version'] == '81' -%># <%- end -%><% if image.vars['php_major_version'] == '82' -%># <%- end -%>php<%= image.vars['php_major_version'] %>-xmlrpc \
     php<%= image.vars['php_major_version'] %>-xmlwriter \
     php<%= image.vars['php_major_version'] %>-xsl \
     php<%= image.vars['php_major_version'] %>-zip \
     fcgi \
  && rm -rf /var/cache/apk
 
+<% if image.vars['php_major_version'] == '81' -%>
+RUN apk add --no-cache \
+    --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing \
+    php<%= image.vars['php_major_version'] %>-pecl-timezonedb \
+    php<%= image.vars['php_major_version'] %>-pecl-oauth \
+    php<%= image.vars['php_major_version'] %>-pecl-xmlrpc \
+ && rm -rf /var/cache/apk
+<% end -%>
+
+<% if image.vars['php_major_version'] == '82' -%>
+RUN apk add --no-cache \
+    --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing \
+    php<%= image.vars['php_major_version'] %>-pecl-amqp \
+    php<%= image.vars['php_major_version'] %>-pecl-imagick \
+    php<%= image.vars['php_major_version'] %>-pecl-lzf \
+    php<%= image.vars['php_major_version'] %>-pecl-oauth \
+    php<%= image.vars['php_major_version'] %>-pecl-protobuf \
+    php<%= image.vars['php_major_version'] %>-pecl-timezonedb \
+    php<%= image.vars['php_major_version'] %>-pecl-vips \
+    # php<%= image.vars['php_major_version'] %>-xmlrpc \
+ && rm -rf /var/cache/apk
+<% end -%>
 ADD https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-fpm-healthcheck /usr/local/bin/php-fpm-healthcheck
 ADD www.conf /etc/php<%= image.vars['php_major_version'] %>/php-fpm.d/www.conf
 ADD docker.conf /etc/php<%= image.vars['php_major_version'] %>/php-fpm.d/docker.conf
