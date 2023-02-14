@@ -88,8 +88,8 @@ ADD https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-
 ADD www.conf /etc/php7/php-fpm.d/www.conf
 ADD docker.conf /etc/php7/php-fpm.d/docker.conf
 ADD zz-docker.conf /etc/php7/php-fpm.d/zz-docker.conf
-ADD 50-copy-php-fpm-config.sh /docker-entrypoint.d/50-copy-php-fpm-config.sh
-ADD 60-php_extensions.sh /docker-entrypoint.d/60-php_extensions.sh
+ADD 7.4/50-copy-php-fpm-config.sh /docker-entrypoint.d/50-copy-php-fpm-config.sh
+ADD 7.4/60-php_extensions.sh /docker-entrypoint.d/60-php_extensions.sh
 ADD php.ini-development /etc/php7/php.ini-development
 
 RUN chmod +x /usr/local/bin/php-fpm-healthcheck \

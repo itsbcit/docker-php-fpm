@@ -1,5 +1,5 @@
 #!/bin/sh
-ext_ini_dir=/etc/php7/conf.d
+ext_ini_dir=/etc/php<%= image.vars['php_major_version'] %>/conf.d
 
 [ -z "$DISABLE_EXTENSIONS" ] && [ -z "$ENABLE_EXTENSIONS" ] && return
 

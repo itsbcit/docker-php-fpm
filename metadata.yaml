@@ -51,4 +51,6 @@ versions:
       php_version: '8.2.2'
     tags:
       - 'experimental'
-  
+template_files:
+  - 50-copy-php-fpm-config.sh.erb
+  - 60-php_extensions.sh.erb
