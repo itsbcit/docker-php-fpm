@@ -103,6 +103,7 @@ ADD zz-docker.conf /etc/php82/php-fpm.d/zz-docker.conf
 ADD 8.2/50-copy-php-fpm-config.sh /docker-entrypoint.d/50-copy-php-fpm-config.sh
 ADD 8.2/60-php_extensions.sh /docker-entrypoint.d/60-php_extensions.sh
 ADD php.ini-development /etc/php82/php.ini-development
+RUN sed -i 's$.*;error_log.*$&\nerror_log = /dev/stderr$' /etc/php82/php-fpm.conf
 
 RUN chmod +x /usr/local/bin/php-fpm-healthcheck \
  && sh -c 'find /etc/php82 -type f -exec chown root:root {} \;' \
