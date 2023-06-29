@@ -45,7 +45,7 @@ versions:
       - 'latest'
   "8.2":
     vars:
-      alpine_version: '3.17'
+      alpine_version: '3.18'
       php_major_version: '82'
       php_minor_version: '8.2'
       php_version: '8.2.2'

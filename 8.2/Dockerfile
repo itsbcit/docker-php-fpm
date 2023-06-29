@@ -1,4 +1,4 @@
-FROM bcit.io/alpine:3.17-latest
+FROM bcit.io/alpine:3.18-latest
 
 ENV DISABLE_EXTENSIONS="curl enchant ftp gd imagick imap ldap odbc pcntl snmp ssh2 sysvmsg sysvsem sysvshm exif pdo_odbc amqp mailparse vips xdebug"
 ENV ENABLE_EXTENSIONS=""
