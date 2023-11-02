@@ -4,7 +4,6 @@ ENV DISABLE_EXTENSIONS="curl enchant ftp gd imagick imap ldap odbc pcntl snmp ss
 ENV ENABLE_EXTENSIONS=""
 
 RUN apk add --no-cache \
-    --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
     php82 \
     php82-bcmath \
     php82-bz2 \
@@ -39,19 +38,19 @@ RUN apk add --no-cache \
     php82-pdo_odbc \
     php82-pdo_pgsql \
     php82-pdo_sqlite \
-    # php82-pecl-amqp \
+    php82-pecl-amqp \
     # php82-pecl-event \
     php82-pecl-igbinary \
-    # php82-pecl-imagick \
-    # php82-pecl-lzf \
+    php82-pecl-imagick \
+    php82-pecl-lzf \
     # php82-pecl-mailparse \
     # php82-pecl-mcrypt \
     php82-pecl-memcached \
     php82-pecl-msgpack \
     # php82-pecl-oauth \
-    # php82-pecl-protobuf \
+    php82-pecl-protobuf \
     php82-pecl-redis \
-    # php82-pecl-ssh2 \
+    php82-pecl-ssh2 \
     # php82-pecl-timezonedb \
     # php82-pecl-vips \
     php82-pecl-xdebug \
@@ -87,15 +86,15 @@ RUN apk add --no-cache \
 
 RUN apk add --no-cache \
     --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-    php82-pecl-amqp \
-    php82-pecl-imagick \
-    php82-pecl-lzf \
+    php82-pecl-event \
     php82-pecl-oauth \
-    php82-pecl-protobuf \
     php82-pecl-timezonedb \
-    php82-pecl-vips \
-    # php82-xmlrpc \
+    php82-pecl-vips
+RUN apk add --no-cache \
+    --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
+    php82-pecl-mailparse \
  && rm -rf /var/cache/apk
+RUN ln -s /usr/bin/php82 /usr/bin/php
 ADD https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-fpm-healthcheck /usr/local/bin/php-fpm-healthcheck
 ADD www.conf /etc/php82/php-fpm.d/www.conf
 ADD docker.conf /etc/php82/php-fpm.d/docker.conf
