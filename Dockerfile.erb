@@ -85,8 +85,10 @@ RUN apk add --no-cache \
 
 <% if image.vars['php_major_version'] == '81' -%>
 RUN apk add --no-cache \
+    --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
+    php<%= image.vars['php_major_version'] %>-pecl-timezonedb
+RUN apk add --no-cache \
     --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-    php<%= image.vars['php_major_version'] %>-pecl-timezonedb \
     php<%= image.vars['php_major_version'] %>-pecl-oauth \
     php<%= image.vars['php_major_version'] %>-pecl-xmlrpc \
  && rm -rf /var/cache/apk
@@ -94,14 +96,14 @@ RUN apk add --no-cache \
 
 <% if image.vars['php_major_version'] == '82' -%>
 RUN apk add --no-cache \
-    --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-    php<%= image.vars['php_major_version'] %>-pecl-event \
-    php<%= image.vars['php_major_version'] %>-pecl-oauth \
-    php<%= image.vars['php_major_version'] %>-pecl-timezonedb \
-    php<%= image.vars['php_major_version'] %>-pecl-vips
+    --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
+    php<%= image.vars['php_major_version'] %>-pecl-oauth
 RUN apk add --no-cache \
     --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
+    php<%= image.vars['php_major_version'] %>-pecl-event \
+    php<%= image.vars['php_major_version'] %>-pecl-timezonedb \
     php<%= image.vars['php_major_version'] %>-pecl-mailparse \
+    php<%= image.vars['php_major_version'] %>-pecl-vips \
  && rm -rf /var/cache/apk
 RUN ln -s /usr/bin/php82 /usr/bin/php
 <% end -%>

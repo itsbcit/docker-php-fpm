@@ -84,8 +84,10 @@ RUN apk add --no-cache \
  && rm -rf /var/cache/apk
 
 RUN apk add --no-cache \
+    --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
+    php81-pecl-timezonedb
+RUN apk add --no-cache \
     --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-    php81-pecl-timezonedb \
     php81-pecl-oauth \
     php81-pecl-xmlrpc \
  && rm -rf /var/cache/apk

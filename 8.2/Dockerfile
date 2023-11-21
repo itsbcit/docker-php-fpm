@@ -85,14 +85,14 @@ RUN apk add --no-cache \
 
 
 RUN apk add --no-cache \
-    --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-    php82-pecl-event \
-    php82-pecl-oauth \
-    php82-pecl-timezonedb \
-    php82-pecl-vips
+    --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
+    php82-pecl-oauth
 RUN apk add --no-cache \
     --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
+    php82-pecl-event \
+    php82-pecl-timezonedb \
     php82-pecl-mailparse \
+    php82-pecl-vips \
  && rm -rf /var/cache/apk
 RUN ln -s /usr/bin/php82 /usr/bin/php
 ADD https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-fpm-healthcheck /usr/local/bin/php-fpm-healthcheck
